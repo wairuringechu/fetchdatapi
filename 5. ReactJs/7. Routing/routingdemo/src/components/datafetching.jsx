@@ -1,27 +1,32 @@
-import axios from 'axios';
-{id:1,
-axios.get('https://example.com/products')
-  .then(response => {
-    const products1= response.data;
-    console.log(products1);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function Products() {
+  let [products, setProducts] = useState([]);
+  
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        let response = await axios.get("https://dummyjson.com/products");
+        setProducts(response.data.products);
+      } catch (error) {
+        console.log("This is the error", error);
+      }
+    };
+    getProducts();
+  }, []);
+
+  return (
+    <div>
+      {products && products.length > 0 ? (
+        products.map((p) => {
+          return <h3>{p.name}</h3>;
+        })
+      ) : (
+        <h1>products available</h1>
+      )}
+    </div>
+  );
 }
 
-{id:2,
-    axios.get('https://exapmle.com//products/smartphones')
-    .then(response => {
-        const products2= response.data;
-        console.log(products2);
-    })
-    .catch(error =>{
-        console.log(error);
-    });
-
-    }
-
-
-
-
+export default Products;
